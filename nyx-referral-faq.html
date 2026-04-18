@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nyx Web Design — Referral FAQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #0d0d1a;
+    --navy2: #13132b;
+    --navy3: #1a1a35;
+    --card: #16163a;
+    --card2: #1e1e42;
+    --gold: #f5c542;
+    --gold2: #e8b320;
+    --purple: #7b6ef6;
+    --purple2: #a99ff8;
+    --white: #f0f0ff;
+    --muted: #8888aa;
+    --border: rgba(123,110,246,0.18);
+    --border2: rgba(245,197,66,0.25);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  /* noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(13,13,26,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-icon {
+    width: 32px; height: 32px;
+    background: var(--purple);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px;
+    color: #fff;
+  }
+  .nav-logo-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.08em; color: var(--white); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-badge {
+    font-size: 11px; font-weight: 500; padding: 5px 14px;
+    background: rgba(245,197,66,0.12); color: var(--gold);
+    border: 0.5px solid var(--border2); border-radius: 999px;
+    letter-spacing: 0.06em;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+  }
+  .hero-glow {
+    position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(123,110,246,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: block; width: 32px; height: 0.5px; background: var(--gold); opacity: 0.5;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(42px, 7vw, 80px);
+    line-height: 1.05; letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-size: 16px; color: var(--muted); max-width: 480px;
+    margin: 0 auto 40px; line-height: 1.6;
+  }
+  .hero-chips { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .chip {
+    font-size: 12px; padding: 6px 16px; border-radius: 999px;
+    border: 0.5px solid var(--border); color: var(--purple2);
+    background: rgba(123,110,246,0.08); letter-spacing: 0.04em;
+  }
+  .scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  .scroll-hint::after {
+    content: ''; display: block; width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  .section-pad { padding: 100px 0; }
+
+  .section-label {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content:''; display:block; width:24px; height:0.5px; background:var(--gold); opacity:0.6; }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: clamp(28px, 4vw, 42px); line-height: 1.15;
+    color: var(--white); margin-bottom: 16px;
+  }
+  .section-title span { color: var(--purple2); }
+  .section-desc { font-size: 15px; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 56px; }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%; height: 0.5px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* HOW TO REFER */
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; }
+  .step-card {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 28px 24px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .step-card:hover { border-color: rgba(123,110,246,0.4); transform: translateY(-3px); }
+  .step-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--purple), var(--gold));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .step-card:hover::before { opacity: 1; }
+  .step-num {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em; color: var(--gold); margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .step-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 15px; color: var(--white); margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* COMMISSION */
+  .commission-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .comm-rules { display: flex; flex-direction: column; gap: 14px; }
+  .comm-rule {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 12px; padding: 16px 20px;
+  }
+  .comm-icon {
+    width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .comm-icon.gold { background: rgba(245,197,66,0.12); }
+  .comm-icon.purple { background: rgba(123,110,246,0.12); }
+  .comm-icon.red { background: rgba(255,90,90,0.1); }
+  .comm-rule-text { font-size: 14px; color: var(--white); line-height: 1.5; }
+  .comm-rule-text strong { color: var(--gold); font-weight: 500; }
+
+  .comm-table-wrap { overflow-x: auto; }
+  .comm-table {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+    border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .comm-table thead tr { background: var(--card2); }
+  .comm-table th {
+    padding: 12px 16px; text-align: left;
+    font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .comm-table td { padding: 13px 16px; border-bottom: 0.5px solid var(--border); color: var(--white); }
+  .comm-table tr:last-child td { border-bottom: none; }
+  .comm-table tr:hover td { background: rgba(123,110,246,0.05); }
+  .comm-table .price { color: var(--purple2); font-weight: 500; }
+  .comm-table .earn { color: var(--gold); font-weight: 500; }
+  .comm-table .tier { color: var(--muted); font-size: 11px; letter-spacing: 0.06em; }
+
+  /* DEMOS */
+  .demos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .demo-card {
+    border: 0.5px solid var(--border); border-radius: 16px; overflow: hidden;
+    background: var(--card);
+    transition: border-color 0.3s, transform 0.3s;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .demo-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+  .demo-thumb {
+    height: 140px; display: flex; align-items: center; justify-content: center;
+    font-size: 28px; position: relative; overflow: hidden;
+  }
+  .demo-thumb.cafe { background: linear-gradient(135deg, #2a1a0e, #4a2e18); }
+  .demo-thumb.bakery { background: linear-gradient(135deg, #2a0e1a, #4a1830); }
+  .demo-thumb.catering { background: linear-gradient(135deg, #1a1a10, #2e2e18); }
+  .demo-thumb-label {
+    position: absolute; bottom: 10px; left: 12px;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .demo-body { padding: 18px 20px 20px; }
+  .demo-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--white); margin-bottom: 4px; }
+  .demo-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+  .demo-link {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); display: flex; align-items: center; gap: 6px;
+  }
+  .demo-link::after { content: '→'; transition: transform 0.2s; }
+  .demo-card:hover .demo-link::after { transform: translateX(4px); }
+
+  /* FAQ */
+  .faq-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  .faq-tab {
+    font-size: 12px; padding: 6px 16px; border-radius: 999px;
+    border: 0.5px solid var(--border); background: transparent;
+    cursor: pointer; color: var(--muted); letter-spacing: 0.04em;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .faq-tab.active {
+    background: rgba(245,197,66,0.1); color: var(--gold);
+    border-color: var(--border2);
+  }
+  .faq-list { display: flex; flex-direction: column; gap: 8px; }
+  .faq-item {
+    border: 0.5px solid var(--border); border-radius: 12px;
+    background: var(--card); overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .faq-item.open { border-color: rgba(123,110,246,0.35); }
+  .faq-q {
+    padding: 18px 22px; display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; gap: 16px;
+    font-size: 14px; font-weight: 500; color: var(--white);
+    user-select: none;
+  }
+  .faq-q:hover { color: var(--purple2); }
+  .faq-arrow {
+    width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+    background: rgba(123,110,246,0.1); display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--purple2); transition: transform 0.25s, background 0.2s;
+  }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); background: rgba(123,110,246,0.2); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.25s;
+    font-size: 14px; color: var(--muted); line-height: 1.75;
+    padding: 0 22px;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding: 0 22px 18px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+    font-size: 12px; color: var(--muted); letter-spacing: 0.06em;
+  }
+  footer span { color: var(--purple2); }
+
+  /* ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .commission-wrap { grid-template-columns: 1fr; }
+    .demos-grid { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .steps-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">N</div>
+    <span class="nav-logo-text">NYX WEB DESIGN</span>
+  </div>
+  <div class="nav-links">
+    <a href="#how-to-refer">How to refer</a>
+    <a href="#commission">Commission</a>
+    <a href="#demos">Demos</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="nav-badge">Partner Guide</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">Referral FAQ</div>
+  <h1>Refer clients.<br/><span>Earn commissions.</span></h1>
+  <p class="hero-sub">Everything you need to know to refer businesses confidently and get paid for every successful deal.</p>
+  <div class="hero-chips">
+    <span class="chip">20% commission per deal</span>
+    <span class="chip">No long-term contracts</span>
+    <span class="chip">Paid via GCash or PayPal</span>
+  </div>
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW TO REFER -->
+<section class="section-pad" id="how-to-refer">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Step by step</div>
+      <h2 class="section-title">How to <span>refer a client</span></h2>
+      <p class="section-desc">You get a leads database, do the outreach, and earn — whether you close it yourself or hand it off to me.</p>
+    </div>
+    <div class="steps-grid fade-up">
+      <div class="step-card">
+        <div class="step-num">Step 01</div>
+        <div class="step-title">Get your leads</div>
+        <div class="step-desc">You'll receive a database of potential business leads to work from. No need to hunt for them yourself.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 02</div>
+        <div class="step-title">Reach out</div>
+        <div class="step-desc">Contact the business directly via FB or IG DM. Introduce yourself and spark interest in getting a website.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 03</div>
+        <div class="step-title">Close or hand off</div>
+        <div class="step-desc">Close the deal yourself or pass it to me for technical questions. Either way — same 20% commission for you.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 04</div>
+        <div class="step-title">Get paid</div>
+        <div class="step-desc">Once the client sends their 50% downpayment, your commission is released — via GCash or PayPal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMMISSION -->
+<section class="section-pad" id="commission">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Earnings breakdown</div>
+      <h2 class="section-title">Your <span>commission</span></h2>
+      <p class="section-desc">Simple, transparent, and fair. No hidden rules — just 20% of every package you bring in.</p>
+    </div>
+    <div class="commission-wrap fade-up">
+      <div class="comm-rules">
+        <div class="comm-rule">
+          <div class="comm-icon gold">💰</div>
+          <div class="comm-rule-text">You earn <strong>20% of the package price</strong> for every client you refer that proceeds.</div>
+        </div>
+        <div class="comm-rule">
+          <div class="comm-icon gold">⏱</div>
+          <div class="comm-rule-text">Commission is released <strong>after the client pays their 50% downpayment</strong> — before development starts.</div>
+        </div>
+        <div class="comm-rule">
+          <div class="comm-icon purple">🤝</div>
+          <div class="comm-rule-text"><strong>Same 20%</strong> whether you close the deal yourself or hand it off to me.</div>
+        </div>
+        <div class="comm-rule">
+          <div class="comm-icon purple">🛡</div>
+          <div class="comm-rule-text">If the client backs out after paying, the downpayment is <strong>non-refundable — and you still get your commission.</strong></div>
+        </div>
+        <div class="comm-rule">
+          <div class="comm-icon red">✕</div>
+          <div class="comm-rule-text">Commission does <strong>not apply to retainers or add-ons</strong> — only the main package price.</div>
+        </div>
+      </div>
+      <div class="comm-table-wrap">
+        <table class="comm-table">
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th>Price</th>
+              <th>You earn</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tier">Single-Page</span><br/>Basic</td>
+              <td class="price">₱1,500</td>
+              <td class="earn">₱300</td>
+            </tr>
+            <tr>
+              <td><span class="tier">Single-Page</span><br/>Standard</td>
+              <td class="price">₱3,000</td>
+              <td class="earn">₱600</td>
+            </tr>
+            <tr>
+              <td><span class="tier">Single-Page</span><br/>Premium</td>
+              <td class="price">₱5,000</td>
+              <td class="earn">₱1,000</td>
+            </tr>
+            <tr>
+              <td><span class="tier">Multi-Page</span><br/>Basic</td>
+              <td class="price">₱6,000</td>
+              <td class="earn">₱1,200</td>
+            </tr>
+            <tr>
+              <td><span class="tier">Multi-Page</span><br/>Standard</td>
+              <td class="price">₱9,000</td>
+              <td class="earn">₱1,800</td>
+            </tr>
+            <tr>
+              <td><span class="tier">Multi-Page</span><br/>Premium</td>
+              <td class="price">₱14,000</td>
+              <td class="earn">₱2,800</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEMOS -->
+<section class="section-pad" id="demos">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Live proof of work</div>
+      <h2 class="section-title">Demo <span>websites</span></h2>
+      <p class="section-desc">Send these to prospects so they can see exactly what they're getting — fully live, browsable on mobile.</p>
+    </div>
+    <div class="demos-grid fade-up">
+      <a href="https://kape-sa-sulok.vercel.app/" target="_blank" class="demo-card">
+        <div class="demo-thumb cafe">
+          <span style="font-size:36px;">☕</span>
+          <span class="demo-thumb-label">Live demo</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-name">Kape sa Sulok</div>
+          <div class="demo-desc">Specialty café — warm brown & cream theme. Great for cafés, milk tea shops, and food businesses.</div>
+          <div class="demo-link">View live site</div>
+        </div>
+      </a>
+      <a href="https://bellas-bakery-one.vercel.app/" target="_blank" class="demo-card">
+        <div class="demo-thumb bakery">
+          <span style="font-size:36px;">🎂</span>
+          <span class="demo-thumb-label">Live demo</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-name">Bella's Bakery</div>
+          <div class="demo-desc">Custom cakes & pastries — pink playful theme. Great for bakeries, dessert shops, and home bakers.</div>
+          <div class="demo-link">View live site</div>
+        </div>
+      </a>
+      <a href="https://lustre-catering.vercel.app/" target="_blank" class="demo-card">
+        <div class="demo-thumb catering">
+          <span style="font-size:36px;">🍽</span>
+          <span class="demo-thumb-label">Live demo</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-name">Lustre Catering</div>
+          <div class="demo-desc">Catering & events — elegant cream & gold theme. Great for catering, events, and nail spas.</div>
+          <div class="demo-link">View live site</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="section-pad" id="faq">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Common questions</div>
+      <h2 class="section-title">Frequently asked <span>questions</span></h2>
+      <p class="section-desc">Everything a partner might ask — answered clearly so you can refer with confidence.</p>
+    </div>
+    <div class="faq-tabs fade-up">
+      <button class="faq-tab active" onclick="filterFaq('all',this)">All</button>
+      <button class="faq-tab" onclick="filterFaq('service',this)">About the service</button>
+      <button class="faq-tab" onclick="filterFaq('process',this)">Process</button>
+      <button class="faq-tab" onclick="filterFaq('commission',this)">Commission</button>
+      <button class="faq-tab" onclick="filterFaq('closing',this)">Closing deals</button>
+    </div>
+    <div class="faq-list fade-up" id="faq-list"></div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <span>Nyx Web Design</span> — Partner Reference Guide. For internal use only.</p>
+</footer>
+
+<script>
+const faqs = [
+  { cat: 'service', q: 'What kind of businesses should I refer?', a: 'Best fits are small Filipino businesses — cafés, bakeries, nail spas, catering services, and tutorial or review centers. If they\'re active on Facebook or Instagram but don\'t have their own website, that\'s the ideal lead.' },
+  { cat: 'service', q: 'What does Nyx Web Design actually build?', a: 'Modern, mobile-friendly websites built with React and Tailwind CSS — hosted live online, not just a template. Packages range from a simple single-page site (₱1,500) to a full multi-page premium build (₱14,000).' },
+  { cat: 'service', q: 'Does the client need to know anything technical?', a: 'Not at all. Everything is handled for them — hosting, setup, deployment. After delivery, they get a short walkthrough video so they know how to use the site and how to request updates.' },
+  { cat: 'service', q: 'How long does it take to build a website?', a: 'Standard turnaround is a few days to about a week depending on the package. Rush delivery in 24–48 hours is available for an additional ₱1,000.' },
+  { cat: 'service', q: 'What add-on services are available?', a: 'Optional add-ons include: custom domain setup (₱500), logo design (₱800), Facebook cover and profile photo (₱500), extra sections or pages (₱800 each), social media post templates — 5 pieces (₱900), and rush delivery (+₱1,000).' },
+  { cat: 'process', q: 'What happens after I refer a client?', a: 'Once a client is interested, they\'ll be asked a few simple questions — business name, services, preferred colors, contact info, photos, and deadline. Then the site gets built, previewed, revised if needed, and launched.' },
+  { cat: 'process', q: 'What if the client wants changes after the site is done?', a: 'There\'s an optional monthly retainer for ongoing updates. The entry plan is ₱99/month for one update — like changing a price or swapping a photo. Plans go up to unlimited updates. All month-to-month, no contracts.' },
+  { cat: 'process', q: 'What information does the client need to prepare?', a: 'Business name, tagline, services or products offered, preferred colors or branding, Facebook or Instagram links, contact number and email, address if relevant, any photos they want used, and their preferred deadline.' },
+  { cat: 'commission', q: 'When exactly do I get my commission?', a: 'Your commission is released once the client sends their 50% downpayment — before development even starts. You don\'t need to wait for the full project to finish.' },
+  { cat: 'commission', q: 'How is my commission paid?', a: 'Via GCash or PayPal — whichever works best for you. Just coordinate with Nyx Web Design after the client\'s downpayment is confirmed.' },
+  { cat: 'commission', q: 'Does commission apply to retainers or add-ons?', a: 'No. Commission is based on the main package price only. Retainers and add-ons are not included in the commission calculation.' },
+  { cat: 'commission', q: 'What if the client backs out after the downpayment?', a: 'The downpayment is non-refundable. And your commission is still paid out — you did your job by bringing in the client.' },
+  { cat: 'closing', q: 'Can I negotiate the price with the client?', a: 'Yes, within the set package prices. You can offer a lower tier as a starting point — like suggesting the Basic package if they seem hesitant on price. Never go below ₱1,500 for a single-page site. No custom discounts outside the packages.' },
+  { cat: 'closing', q: 'What if the client says it\'s too expensive?', a: 'Offer the next tier down as an alternative. Frame it as a lighter package to get them started — never call it "cheap." If they\'re still resistant, close the conversation positively and exit. Don\'t push.' },
+  { cat: 'closing', q: 'What if the client says they already have Facebook?', a: 'Acknowledge it, then explain that a website doesn\'t replace Facebook — it adds to it. Facebook keeps existing customers engaged; a website helps new customers find them on Google. They work together, not against each other.' },
+  { cat: 'closing', q: 'What if the client asks something technical I can\'t answer?', a: 'Hand it off. That\'s what the handoff option is for. You can say: "Let me connect you directly with the designer to answer that." You still get the same 20% commission — no penalty for passing it on.' },
+];
+
+let activeFilter = 'all';
+
+function filterFaq(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderFaq();
+}
+
+function renderFaq() {
+  const list = document.getElementById('faq-list');
+  const filtered = activeFilter === 'all' ? faqs : faqs.filter(f => f.cat === activeFilter);
+  list.innerHTML = filtered.map((f, i) => `
+    <div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFaq(${i})">
+        <span>${f.q}</span>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">${f.a}</div>
+    </div>
+  `).join('');
+}
+
+function toggleFaq(i) {
+  const el = document.getElementById('faq-' + i);
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+renderFaq();
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
